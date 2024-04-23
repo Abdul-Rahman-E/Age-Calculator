@@ -11,9 +11,44 @@ const Panel = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleKeyPress = (event) => {
-    const pattern = /[0-9]/;
-    const inputChar = String.fromCharCode(event.charCode);
-    if (!pattern.test(inputChar)) {
+    const numericKeys = [
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57, // Numeric keys at the top of the keyboard
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105, // Numeric keys on the numpad
+    ];
+
+    // Allow the following keys: Backspace, Tab, Left arrow, Right arrow, Delete, End, Home, and numeric keys
+    if (
+      !(
+        (
+          event.keyCode === 8 || // Backspace
+          event.keyCode === 9 || // Tab
+          event.keyCode === 37 || // Left arrow
+          event.keyCode === 39 || // Right arrow
+          event.keyCode === 46 || // Delete
+          event.keyCode === 35 || // End
+          event.keyCode === 36 || // Home
+          numericKeys.includes(event.keyCode)
+        ) // Numeric keys
+      )
+    ) {
       event.preventDefault();
     }
   };
@@ -188,7 +223,7 @@ const Panel = () => {
                 pattern="[0-9]*"
                 value={formValues.day}
                 onChange={handleChange}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
               />
               <p className="w-28 text-red-600 text-[9px] font-sans">
                 {formErrors.day}
@@ -233,7 +268,7 @@ const Panel = () => {
                 pattern="[0-9]*"
                 value={formValues.month}
                 onChange={handleChange}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
               />
               <p className="w-28 text-red-600 text-[9px] font-sans">
                 {formErrors.month}
@@ -278,7 +313,7 @@ const Panel = () => {
                 pattern="[0-9]*"
                 value={formValues.year}
                 onChange={handleChange}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
               />
               <p className="w-28 h-5 text-red-600 text-[9px] font-sans">
                 {formErrors.year}
